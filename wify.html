@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wify Assignment by Sahid</title>
+</head>
+<body>
+  <div id="form-container"></div>
+
+  <script>
+    const data = [
+      {
+        "key": "user_name",
+        "label": "Name",
+        "type": "text",
+        "maxLength": "50"
+      },
+      {
+        "key": "mobile_no",
+        "label": "Mobile number",
+        "type": "number",
+        "maxLength": "10"
+      },
+      {
+        "key": "email",
+        "label": "Email",
+        "type": "email"
+      }
+    ];
+
+    function formCreationFnc(data) {
+      const form = document.createElement('form');
+
+      data.forEach(item => {
+        const divMain = document.createElement('div');
+        const label = document.createElement('label');
+        label.htmlFor = item.key;
+        label.innerText = item.label;
+
+        const input = document.createElement('input');
+        input.type = item.type || 'text';
+        input.id = item.key;
+        input.name = item.key;
+        if (item.maxLength) {
+          input.maxLength = item.maxLength;
+        }
+// ------------------------------------------
+        //-- Note this oninput method is basically used for the number max length because since the direct above if statement was not working
+
+        if (item.type === "number") {
+          input.oninput = function () {
+            if (this.value.length > item.maxLength) {
+              this.value = this.value.slice(0, item.maxLength);
+            }
+          };
+        }
+//-----------------------
+
+        divMain.appendChild(label);
+        divMain.appendChild(input);
+        form.appendChild(divMain);
+      });
+
+      const submitBtn = document.createElement('button');
+      submitBtn.type = 'submit';
+      submitBtn.innerText = 'Submit';
+      form.appendChild(submitBtn);
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        alert('Submitted successfully');
+      });
+
+      document.getElementById('form-container').appendChild(form);
+    }
+
+    formCreationFnc(data);
+  </script>
+</body>
+</html>
